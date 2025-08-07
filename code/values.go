@@ -124,7 +124,7 @@ func CmdsView(pt *Commands) {
 	d.RunWindow()
 }
 
-func (cn CmdName) Value() core.Value {
+func (cn CmdName) Widget() core.Value {
 	return NewCmdButton()
 }
 
