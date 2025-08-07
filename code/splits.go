@@ -196,8 +196,8 @@ func SplitsView(pt *Splits) {
 	d.RunWindow()
 }
 
-// Value registers [core.Chooser] as the [core.Value] widget
+// Widget registers [core.Chooser] as the [core.Value] widget
 // for [SplitName]
-func (sn SplitName) Value() core.Value {
+func (sn SplitName) Widget() core.Value {
 	return core.NewChooser().SetStrings(AvailableSplitNames...)
 }

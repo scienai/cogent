@@ -3,7 +3,7 @@ module cogentcore.org/cogent
 go 1.23.4
 
 require (
-	cogentcore.org/core v0.3.12
+	cogentcore.org/core v0.3.13-0.20250807185047-1bd7b2b389bc
 	cogentcore.org/lab v0.1.2
 	github.com/Knetic/govaluate v3.0.0+incompatible
 	github.com/aandrew-me/tgpt/v2 v2.7.2
@@ -23,7 +23,7 @@ require (
 	github.com/shirou/gopsutil/v3 v3.24.2
 	github.com/stretchr/testify v1.10.0
 	github.com/yuin/goldmark v1.7.3
-	golang.org/x/oauth2 v0.20.0
+	golang.org/x/oauth2 v0.27.0
 	gonum.org/v1/gonum v0.15.0
 )
 

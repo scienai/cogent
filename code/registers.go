@@ -133,9 +133,9 @@ func RegistersView(pt *Registers) {
 	d.RunWindow()
 }
 
-// Value registers [core.Chooser] as the [core.Value] widget
+// Widget registers [core.Chooser] as the [core.Value] widget
 // for [RegisterName]
-func (rn RegisterName) Value() core.Value {
+func (rn RegisterName) Widget() core.Value {
 	ch := core.NewChooser().SetStrings(AvailableRegisterNames...)
 	ch.SetEditable(true).SetAllowNew(true)
 	return ch
