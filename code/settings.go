@@ -7,7 +7,6 @@ package code
 import (
 	"os"
 	"path/filepath"
-	"slices"
 
 	"cogentcore.org/cogent/code/cdebug"
 	"cogentcore.org/core/base/errors"
@@ -24,7 +23,7 @@ import (
 
 func init() {
 	core.TheApp.SetName("Cogent Code")
-	core.AllSettings = slices.Insert(core.AllSettings, 1, core.Settings(Settings))
+	core.AddAppSettings(Settings)
 	OpenPaths()
 	// OpenIcons()
 }

@@ -24,8 +24,10 @@ import (
 	"cogentcore.org/core/icons"
 	"cogentcore.org/core/keymap"
 	"cogentcore.org/core/math32"
+	"cogentcore.org/core/paint"
 	"cogentcore.org/core/styles"
 	"cogentcore.org/core/styles/abilities"
+	"cogentcore.org/core/styles/units"
 	"cogentcore.org/core/svg"
 	"cogentcore.org/core/system"
 	"cogentcore.org/core/tree"
@@ -347,11 +349,35 @@ func (cv *Canvas) ExportPNG(width, height float32) error { //types:add
 }
 
 // ExportPDF exports drawing to a PDF file (auto-names to same name
-// with .pdf suffix).  Calls inkscape -- needs to be on the PATH.
+// with .pdf suffix). Uses native PDF rendering or optionally
+// calls inkscape from the command line -- needs to be on the PATH.
 // specify DPI of resulting image for effects rendering.
 // Renders full current page -- do ResizeToContents
 // to render just current contents.
-func (cv *Canvas) ExportPDF(dpi float32) error { //types:add
+func (cv *Canvas) ExportPDF(dpi float32, inkscape bool) error { //types:add
+	if inkscape {
+		return cv.ExportPDFInkscape(dpi)
+	}
+	fext := filepath.Ext(string(cv.Filename))
+	onm := strings.TrimSuffix(string(cv.Filename), fext) + ".pdf"
+	sv := cv.SSVG()
+	sv.Geom.Pos = image.Point{}
+	rend := sv.Render(nil).RenderDone()
+	vsz := sv.Root.ViewBox.Size
+	fmt.Println(vsz)
+
+	ctx := units.NewContext()
+	if dpi > 0 {
+		ctx.DPI = dpi
+	}
+	pd := paint.NewPDFRenderer(vsz, ctx)
+	pd.SetSize(sv.PhysicalWidth.Unit, vsz)
+	pd.Render(rend)
+	err := os.WriteFile(onm, pd.Source(), 0666)
+	return err
+}
+
+func (cv *Canvas) ExportPDFInkscape(dpi float32) error {
 	path, _ := filepath.Split(string(cv.Filename))
 	fnm := filepath.Join(path, "export_pdf.svg")
 	sv := cv.SVG
