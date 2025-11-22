@@ -3,7 +3,7 @@ module cogentcore.org/cogent
 go 1.23.4
 
 require (
-	cogentcore.org/core v0.3.13-0.20250807185047-1bd7b2b389bc
+	cogentcore.org/core v0.3.13-0.20251122080528-7dff9fe2d85b
 	cogentcore.org/lab v0.1.2
 	github.com/Knetic/govaluate v3.0.0+incompatible
 	github.com/aandrew-me/tgpt/v2 v2.7.2
@@ -46,6 +46,7 @@ require (
 	github.com/dlclark/regexp2 v1.11.0 // indirect
 	github.com/ericchiang/css v1.3.0 // indirect
 	github.com/fsnotify/fsnotify v1.8.0 // indirect
+	github.com/go-fonts/latin-modern v0.3.3 // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20240506104042-037f3cc74f2a // indirect
 	github.com/go-jose/go-jose/v4 v4.0.5 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
@@ -58,13 +59,13 @@ require (
 	github.com/hack-pad/hackpadfs v0.2.1 // indirect
 	github.com/hack-pad/safejs v0.1.1 // indirect
 	github.com/hashicorp/golang-lru v1.0.2 // indirect
+	github.com/jeandeaual/go-locale v0.0.0-20250612000132-0ef82f21eade // indirect
 	github.com/jinzhu/copier v0.4.0 // indirect
 	github.com/klauspost/compress v1.17.7 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/lufia/plan9stats v0.0.0-20240226150601-1dcf7310316a // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/mattn/go-runewidth v0.0.15 // indirect
-	github.com/muesli/termenv v0.15.2 // indirect
+	github.com/muesli/termenv v0.16.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.1.2-0.20240227203013-2b69615b5d55 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/power-devops/perfstat v0.0.0-20240221224432-82ca36839d55 // indirect
@@ -89,4 +90,7 @@ require (
 	golang.org/x/tools v0.33.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
+	modernc.org/knuth v0.5.4 // indirect
+	modernc.org/token v1.1.0 // indirect
+	star-tex.org/x/tex v0.6.0 // indirect
 )

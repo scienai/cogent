@@ -58,7 +58,6 @@ func main() {
 					// sc.ResetTextures() // TODO: ResetTextures missing
 					errors.Log1(sc.OpenNewObj(string(file), objgp))
 					sc.SetCamera("default")
-					sc.SetNeedsUpdate()
 					se.NeedsRender()
 				})
 				w.Args[0].SetTag(`extension:".obj,.dae,.gltf"`)

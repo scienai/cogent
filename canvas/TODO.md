@@ -15,6 +15,8 @@ but is instead constraining to diagonal movement, which is not the same!
 
 * grouping can change front / back order -- it is using the selection order instead of the existing order?
 
+* align chooser -> switches, without Align prefix (first, last, etc)
+
 * more subtle logic about duplicating groups:
     + is it duplicating all the elements within the same group?
     + duplicating single element within group puts it in the group.. not what you expect.

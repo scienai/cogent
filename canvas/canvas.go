@@ -24,7 +24,6 @@ import (
 	"cogentcore.org/core/icons"
 	"cogentcore.org/core/keymap"
 	"cogentcore.org/core/math32"
-	"cogentcore.org/core/paint"
 	"cogentcore.org/core/styles"
 	"cogentcore.org/core/styles/abilities"
 	"cogentcore.org/core/styles/units"
@@ -360,21 +359,14 @@ func (cv *Canvas) ExportPDF(dpi float32, inkscape bool) error { //types:add
 	}
 	fext := filepath.Ext(string(cv.Filename))
 	onm := strings.TrimSuffix(string(cv.Filename), fext) + ".pdf"
-	sv := cv.SSVG()
-	sv.Geom.Pos = image.Point{}
-	rend := sv.Render(nil).RenderDone()
-	vsz := sv.Root.ViewBox.Size
-	fmt.Println(vsz)
 
+	sv := cv.SSVG()
 	ctx := units.NewContext()
-	if dpi > 0 {
-		ctx.DPI = dpi
-	}
-	pd := paint.NewPDFRenderer(vsz, ctx)
-	pd.SetSize(sv.PhysicalWidth.Unit, vsz)
-	pd.Render(rend)
-	err := os.WriteFile(onm, pd.Source(), 0666)
-	return err
+	sz := math32.Vector2{}
+	sz.X = ctx.ToDots(sv.PhysicalWidth.Value, sv.PhysicalWidth.Unit)
+	sz.Y = ctx.ToDots(sv.PhysicalHeight.Value, sv.PhysicalHeight.Unit)
+	nsv := sv.CloneSVG(sz)
+	return nsv.SavePDF(onm)
 }
 
 func (cv *Canvas) ExportPDFInkscape(dpi float32) error {
