@@ -33,6 +33,7 @@ func (pg *Page) Init() {
 	pg.Context = htmlcore.NewContext()
 	pg.Context.OpenURL = pg.OpenURL
 	pg.Styler(func(s *styles.Style) {
+		s.Grow.Set(1, 1)
 		s.Direction = styles.Column
 	})
 }
