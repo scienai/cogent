@@ -640,7 +640,7 @@ func (sv *SVG) SelectContainsPoint(pt image.Point, leavesOnly, excludeSel bool) 
 			return tree.Break
 		}
 		xf := p.ParentTransform(true).Inverse()
-		pxf := xf.MulVector2AsPoint(ptv)
+		pxf := xf.MulPoint(ptv)
 		if intersect.Contains(p.Data, pxf.X, pxf.Y, p.Paint.Fill.Rule) {
 			rval = n
 			return tree.Break
