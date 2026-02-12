@@ -12,7 +12,7 @@ import (
 func main() {
 	b := core.NewBody("Cogent Web")
 	pg := web.NewPage(b)
-	pg.OpenURL("https://google.com")
+	pg.OpenURL("https://google.com", nil)
 	b.AddTopBar(func(bar *core.Frame) {
 		core.NewToolbar(bar).Maker(pg.MakeToolbar)
 	})

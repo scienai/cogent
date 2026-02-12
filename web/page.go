@@ -39,7 +39,7 @@ func (pg *Page) Init() {
 }
 
 // OpenURL sets the content of the page from the given url.
-func (pg *Page) OpenURL(url string) {
+func (pg *Page) OpenURL(url string, e events.Event) {
 	resp, err := htmlcore.Get(pg.Context, url)
 	if err != nil {
 		core.ErrorSnackbar(pg, err, "Error opening page")
@@ -62,7 +62,7 @@ func (pg *Page) MakeToolbar(p *tree.Plan) {
 	tree.AddInit(p, "back", func(w *core.Button) {
 		w.OnClick(func(e events.Event) {
 			if len(pg.History) > 1 {
-				pg.OpenURL(pg.History[len(pg.History)-2])
+				pg.OpenURL(pg.History[len(pg.History)-2], e)
 				e.SetHandled()
 			}
 		})

@@ -3,11 +3,11 @@ module cogentcore.org/cogent
 go 1.25.6
 
 require (
-	cogentcore.org/core v0.3.14-0.20260116221522-8798f92d6991
-	cogentcore.org/lab v0.1.3-0.20260116223453-7514329ea794
+	cogentcore.org/core v0.3.17
+	cogentcore.org/lab v0.1.4
 	github.com/Knetic/govaluate v3.0.0+incompatible
 	github.com/aandrew-me/tgpt/v2 v2.7.2
-	github.com/alecthomas/chroma/v2 v2.22.0
+	github.com/alecthomas/chroma/v2 v2.23.0
 	github.com/bogdanfinn/fhttp v0.5.27
 	github.com/bogdanfinn/tls-client v1.7.2
 	github.com/cogentcore/yaegi v0.0.0-20260116172027-700fbf8949f3
