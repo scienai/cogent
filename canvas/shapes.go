@@ -80,10 +80,10 @@ func NewSVGElementDrag[T tree.NodeValue](sv *SVG, start, end image.Point) *T {
 	snb := sn.AsNodeBase()
 
 	xfi := sv.Root().Paint.Transform.Inverse()
-	pos := xfi.MulVector2AsPoint(st)
+	pos := xfi.MulPoint(st)
 	sn.SetNodePos(pos)
 	sz := dv.Abs().Max(math32.Vector2Scalar(minsz / 2))
-	sz = xfi.MulVector2AsVector(sz)
+	sz = xfi.MulVector(sz)
 	sn.SetNodeSize(sz)
 	sn.BBoxes(sv.SVG, snb.ParentTransform(false))
 
@@ -111,11 +111,11 @@ func (sv *SVG) NewText(start, end image.Point) svg.Node {
 	pos := math32.FromPoint(start)
 	// minsz := float32(20)
 	pos.Y += 20 // todo: need the font size..
-	pos = xfi.MulVector2AsPoint(pos)
+	pos = xfi.MulPoint(pos)
 	tspan.Properties = maps.Clone(es.Text.TextProperties())
 	tspan.Pos = pos
 	sz := dv.Abs().Max(math32.Vector2Scalar(minsz / 2))
-	sz = xfi.MulVector2AsVector(sz)
+	sz = xfi.MulVector(sz)
 	tspan.SetNodeSize(sz)
 	tspan.BBoxes(sv.SVG, tspan.ParentTransform(false))
 
@@ -136,8 +136,8 @@ func (sv *SVG) NewPath(start, end image.Point) *svg.Path {
 	sv.ManipStart(NewPath, "")
 	n := NewSVGElement[svg.Path](sv, false)
 	xfi := sv.Root().Paint.Transform.Inverse()
-	pos := xfi.MulVector2AsPoint(math32.FromPoint(start))
-	sz := xfi.MulVector2AsVector(dv)
+	pos := xfi.MulPoint(math32.FromPoint(start))
+	sz := xfi.MulVector(dv)
 	fmt.Println(n.Data)
 	n.Data = nil
 	n.Data.MoveTo(pos.X, pos.Y)

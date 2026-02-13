@@ -103,6 +103,14 @@ var StandardCommands = Commands{
 		Dir:  "{BuildDir}",
 		Wait: CmdNoWait, Focus: CmdNoFocus, Confirm: CmdNoConfirm},
 
+	{Cat: "Go", Name: "Build All",
+		Desc: "run go build ./... in current dir",
+		Lang: fileinfo.Go,
+		Cmds: []CmdAndArgs{{Cmd: "go",
+			Args: []string{"build", "-v", "./..."}}},
+		Dir:  "{FileDirPath}",
+		Wait: CmdNoWait, Focus: CmdNoFocus, Confirm: CmdNoConfirm},
+
 	{Cat: "Go", Name: "Install Dir",
 		Desc: "run go install in current dir",
 		Lang: fileinfo.Go,
@@ -124,6 +132,14 @@ var StandardCommands = Commands{
 		Lang: fileinfo.Go,
 		Cmds: []CmdAndArgs{{Cmd: "go",
 			Args: []string{"test", "-v", "{PromptString1}"}}},
+		Dir:  "{FileDirPath}",
+		Wait: CmdNoWait, Focus: CmdNoFocus, Confirm: CmdNoConfirm},
+
+	{Cat: "Go", Name: "Test All",
+		Desc: "run go test ./... in current dir. Options include: -run TestName or -bench",
+		Lang: fileinfo.Go,
+		Cmds: []CmdAndArgs{{Cmd: "go",
+			Args: []string{"test", "-v", "./...", "{PromptString1}"}}},
 		Dir:  "{FileDirPath}",
 		Wait: CmdNoWait, Focus: CmdNoFocus, Confirm: CmdNoConfirm},
 
@@ -460,7 +476,7 @@ var StandardCommands = Commands{
 		Cmds: []CmdAndArgs{{Cmd: "core",
 			Args: []string{"next-release"}}},
 		Dir:  "{FileDirPath}",
-		Wait: CmdNoWait, Focus: CmdNoFocus, Confirm: CmdNoConfirm},
+		Wait: CmdNoWait, Focus: CmdNoFocus, Confirm: CmdConfirm},
 
 	{Cat: "Core", Name: "Release",
 		Desc: "sets the version to the given value at the prompt and pushes a release tag at this version",

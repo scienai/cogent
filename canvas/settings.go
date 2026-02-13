@@ -6,7 +6,6 @@ package canvas
 
 import (
 	"path/filepath"
-	"slices"
 
 	"cogentcore.org/core/base/errors"
 	"cogentcore.org/core/base/fsx"
@@ -17,7 +16,7 @@ import (
 
 func init() {
 	core.TheApp.SetName("Cogent Canvas")
-	core.AllSettings = slices.Insert(core.AllSettings, 1, core.Settings(Settings))
+	core.AddAppSettings(Settings)
 }
 
 // Settings are the overall Code settings

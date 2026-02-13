@@ -13,6 +13,7 @@ import (
 	"cogentcore.org/cogent/code"
 	"cogentcore.org/core/base/errors"
 	"cogentcore.org/core/core"
+	"cogentcore.org/core/system"
 )
 
 func main() {
@@ -32,7 +33,7 @@ func main() {
 	ofs := core.TheApp.OpenFiles()
 	if len(ofs) > 0 {
 		path = ofs[0]
-	} else if len(os.Args) > 1 {
+	} else if !system.GenerateHTMLArg() && len(os.Args) > 1 {
 		flag.StringVar(&path, "path", "", "path to open -- can be to a directory or a filename within the directory ")
 		flag.StringVar(&proj, "proj", "", "project file to open -- typically has .code extension")
 		// todo: other args?

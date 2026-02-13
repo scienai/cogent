@@ -58,8 +58,8 @@ func (sv *SVG) PathNodes(path *svg.Path) []*PathNode {
 		cmd := scan.Cmd()
 		end := scan.End()
 		start := scan.Start()
-		tend := xf.MulVector2AsPoint(end)
-		tstart := xf.MulVector2AsPoint(start)
+		tend := xf.MulPoint(end)
+		tstart := xf.MulPoint(start)
 
 		pn := &PathNode{CmdPath: cmd, Index: scan.Index(), PtIndex: pti, Start: start, End: end, TStart: tstart, TEnd: tend}
 		pns = append(pns, pn)
@@ -73,13 +73,13 @@ func (sv *SVG) PathNodes(path *svg.Path) []*PathNode {
 		case ppath.QuadTo:
 			pn.Cmd = SpQuadTo
 			pn.Cp1 = scan.CP1()
-			pn.TCp1 = xf.MulVector2AsPoint(pn.Cp1)
+			pn.TCp1 = xf.MulPoint(pn.Cp1)
 		case ppath.CubeTo:
 			pn.Cmd = SpCubeTo
 			pn.Cp1 = scan.CP1()
 			pn.Cp2 = scan.CP2()
-			pn.TCp1 = xf.MulVector2AsPoint(pn.Cp1)
-			pn.TCp2 = xf.MulVector2AsPoint(pn.Cp2)
+			pn.TCp1 = xf.MulPoint(pn.Cp1)
+			pn.TCp2 = xf.MulPoint(pn.Cp2)
 		// todo: arc
 		case ppath.Close:
 			pn.Cmd = SpClose
@@ -368,7 +368,7 @@ func (sv *SVG) PathNodeMove(pidx int, pointOnly bool, dv math32.Vector2, dxf mat
 	path := es.ActivePath
 	pn := es.PathNodesOrig[pidx]
 	_, isSel := es.NodeSelect[pidx]
-	end := dxf.MulVector2AsPoint(pn.End)
+	end := dxf.MulPoint(pn.End)
 	switch pn.Cmd {
 	case SpMoveTo, SpLineTo, SpClose:
 		path.Data[pn.Index+1] = end.X
@@ -377,7 +377,7 @@ func (sv *SVG) PathNodeMove(pidx int, pointOnly bool, dv math32.Vector2, dxf mat
 		path.Data[pn.Index+3] = end.X
 		path.Data[pn.Index+4] = end.Y
 		if !pointOnly && isSel {
-			cp1 := dxf.MulVector2AsPoint(pn.Cp1)
+			cp1 := dxf.MulPoint(pn.Cp1)
 			path.Data[pn.Index+1] = cp1.X
 			path.Data[pn.Index+2] = cp1.Y
 			if sp1, ok := sprites.SpriteByNameNoLock(SpriteName(SpNodeCtrl, SpQuad1, pidx)); ok {
@@ -388,7 +388,7 @@ func (sv *SVG) PathNodeMove(pidx int, pointOnly bool, dv math32.Vector2, dxf mat
 		path.Data[pn.Index+5] = end.X
 		path.Data[pn.Index+6] = end.Y
 		if !pointOnly && isSel {
-			cp2 := dxf.MulVector2AsPoint(pn.Cp2)
+			cp2 := dxf.MulPoint(pn.Cp2)
 			path.Data[pn.Index+3] = cp2.X
 			path.Data[pn.Index+4] = cp2.Y
 			if sp2, ok := sprites.SpriteByNameNoLock(SpriteName(SpNodeCtrl, SpCube2, pidx)); ok {
@@ -406,7 +406,7 @@ func (sv *SVG) PathNodeMove(pidx int, pointOnly bool, dv math32.Vector2, dxf mat
 	if pn.Cmd != SpCubeTo {
 		return
 	}
-	cp1 := dxf.MulVector2AsPoint(pn.Cp1)
+	cp1 := dxf.MulPoint(pn.Cp1)
 	path.Data[pn.Index+1] = cp1.X
 	path.Data[pn.Index+2] = cp1.Y
 	sp1, ok := sprites.SpriteByNameNoLock(SpriteName(SpNodeCtrl, SpCube1, pidx))
@@ -423,12 +423,12 @@ func (sv *SVG) PathCtrlMove(pidx int, ctyp Sprites, dxf math32.Matrix2) math32.V
 	pn := es.PathNodesOrig[pidx]
 	switch ctyp {
 	case SpQuad1, SpCube1:
-		cp1 := dxf.MulVector2AsPoint(pn.Cp1)
+		cp1 := dxf.MulPoint(pn.Cp1)
 		path.Data[pn.Index+1] = cp1.X
 		path.Data[pn.Index+2] = cp1.Y
 		return pn.TCp1
 	case SpCube2:
-		cp2 := dxf.MulVector2AsPoint(pn.Cp2)
+		cp2 := dxf.MulPoint(pn.Cp2)
 		path.Data[pn.Index+3] = cp2.X
 		path.Data[pn.Index+4] = cp2.Y
 		return pn.TCp2
@@ -571,8 +571,8 @@ func (sv *SVG) NodeAdd(ntyp Sprites, p ppath.Path, end, start math32.Vector2) pp
 	es := sv.EditState()
 	path := es.ActivePath
 	xf := path.ParentTransform(true).Inverse()
-	lend := xf.MulVector2AsPoint(end)
-	lstart := xf.MulVector2AsPoint(start)
+	lend := xf.MulPoint(end)
+	lstart := xf.MulPoint(start)
 	del := lend.Sub(lstart)
 	switch ntyp {
 	case SpClose:

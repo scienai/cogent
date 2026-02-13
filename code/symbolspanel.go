@@ -44,6 +44,9 @@ type SymbolsPanel struct {
 
 	// only show symbols that match this string
 	Match string
+
+	symTree   *SymTree
+	searchStr *core.TextField
 }
 
 // Params returns the symbols params
@@ -69,6 +72,7 @@ func (sv *SymbolsPanel) Init() {
 			s.Overflow.Set(styles.OverflowAuto)
 		})
 		tree.AddChildAt(w, "syms", func(w *SymTree) {
+			sv.symTree = w
 			sv.Syms = NewSymNode()
 			sv.Syms.SetName("syms")
 			if scope == SymScopePackage {
@@ -96,35 +100,17 @@ func (sv *SymbolsPanel) Config(cv *Code, sp SymbolsParams) { // TODO(config): be
 }
 
 func (sv *SymbolsPanel) UpdateSymbols() {
+	if sv.symTree == nil {
+		return
+	}
 	scope := sv.SymParams.Scope
-	tv := sv.FindPath("sym-frame/syms").(*SymTree)
 	if scope == SymScopePackage {
 		sv.OpenPackage()
 	} else {
 		sv.OpenFile()
 	}
-	tv.Resync()
-	tv.OpenAll()
-}
-
-// Toolbar returns the symbols toolbar
-func (sv *SymbolsPanel) Toolbar() *core.Toolbar {
-	return sv.ChildByName("sym-toolbar", 0).(*core.Toolbar)
-}
-
-// FrameWidget returns the frame widget.
-func (sv *SymbolsPanel) FrameWidget() *core.Frame {
-	return sv.ChildByName("sym-frame", 0).(*core.Frame)
-}
-
-// ScopeChooser returns the scope Chooser
-func (sv *SymbolsPanel) ScopeChooser() *core.Chooser {
-	return sv.Toolbar().ChildByName("scope-chooser", 5).(*core.Chooser)
-}
-
-// SearchText returns the unknown word textfield from toolbar
-func (sv *SymbolsPanel) SearchText() *core.TextField {
-	return sv.Toolbar().ChildByName("search-str", 1).(*core.TextField)
+	sv.symTree.Resync()
+	sv.symTree.OpenAll()
 }
 
 // makeToolbar adds toolbar.
@@ -133,7 +119,10 @@ func (sv *SymbolsPanel) makeToolbar(p *tree.Plan) {
 		w.SetText("Refresh").SetIcon(icons.Update).
 			SetTooltip("refresh symbols for current file and scope").
 			OnClick(func(e events.Event) {
-				sv.RefreshAction()
+				sv.UpdateSymbols()
+				if sv.searchStr != nil {
+					sv.searchStr.SetFocus()
+				}
 			})
 	})
 
@@ -147,7 +136,9 @@ func (sv *SymbolsPanel) makeToolbar(p *tree.Plan) {
 		w.OnChange(func(e events.Event) {
 			sv.Params().Scope = w.CurrentItem.Value.(SymScopes)
 			sv.UpdateSymbols()
-			sv.SearchText().SetFocus()
+			if sv.searchStr != nil {
+				sv.searchStr.SetFocus()
+			}
 		})
 		w.SetCurrentValue(sv.Params().Scope) // todo: also update?
 	})
@@ -158,6 +149,7 @@ func (sv *SymbolsPanel) makeToolbar(p *tree.Plan) {
 	})
 
 	tree.AddAt(p, "search-str", func(w *core.TextField) {
+		sv.searchStr = w
 		w.SetTooltip("narrow symbols list by entering a search string -- case is ignored if string is all lowercase -- otherwise case is matched")
 		w.OnChange(func(e events.Event) {
 			sv.Match = w.Text()
@@ -167,12 +159,6 @@ func (sv *SymbolsPanel) makeToolbar(p *tree.Plan) {
 			// w.SetFocusEvent()
 		})
 	})
-}
-
-// RefreshAction loads symbols for current file and scope
-func (sv *SymbolsPanel) RefreshAction() {
-	sv.UpdateSymbols()
-	sv.SearchText().SetFocus()
 }
 
 func SelectSymbol(cv *Code, ssym syms.Symbol) {
@@ -314,8 +300,7 @@ func (sn *SymNode) OpenSyms(pkg *syms.Symbol, fname, match string) {
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// SymNode
+//////// SymNode
 
 // SymScopes corresponds to the search scope
 type SymScopes int32 //enums:enum -trim-prefix SymScope
@@ -357,8 +342,7 @@ func (sy *SymNode) GetIcon() icons.Icon {
 	return ic
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// SymTree
+//////// SymTree
 
 // SymTree is a Tree that knows how to operate on FileNode nodes
 type SymTree struct {

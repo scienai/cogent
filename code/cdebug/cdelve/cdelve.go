@@ -318,7 +318,7 @@ func (gd *GiDelve) StepSingle() (*cdebug.State, error) {
 	if err := gd.StartedCheck(); err != nil {
 		return nil, err
 	}
-	ds, err := gd.dlv.StepInstruction()
+	ds, err := gd.dlv.StepInstruction(false) // false = skipCalls; todo: implement "NextInstruction" that skips calls.
 	gd.LogErr(err)
 	return gd.cvtState(ds), err
 }
@@ -757,7 +757,7 @@ func (gd *GiDelve) ListFuncs(filter string) ([]string, error) {
 	if err := gd.StartedCheck(); err != nil {
 		return nil, err
 	}
-	ds, err := gd.dlv.ListFunctions(filter)
+	ds, err := gd.dlv.ListFunctions(filter, 0) // todo: 0 = followCalls -- not sure what it is.
 	gd.LogErr(err)
 	return ds, err
 }

@@ -89,7 +89,7 @@ func (ts *TextStyle) TextProperties() map[string]any {
 	delete(tps, "select-color")
 	delete(tps, "highlight-color")
 	if ts.Stroke == colors.Transparent { // need to explicitly set to none
-		tps["stroke-color"] = "none"
+		tps["stroke"] = "none"
 	}
 	return tps
 }

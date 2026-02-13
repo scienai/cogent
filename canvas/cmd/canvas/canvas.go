@@ -9,6 +9,7 @@ import (
 
 	"cogentcore.org/cogent/canvas"
 	"cogentcore.org/core/core"
+	"cogentcore.org/core/system"
 )
 
 func main() {
@@ -18,7 +19,7 @@ func main() {
 	var fnms []string
 	if len(ofs) > 0 {
 		fnms = ofs
-	} else if len(os.Args) > 1 {
+	} else if !system.GenerateHTMLArg() && len(os.Args) > 1 {
 		fnms = os.Args[1:]
 	}
 
