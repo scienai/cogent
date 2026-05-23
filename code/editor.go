@@ -325,7 +325,9 @@ func (cv *Code) CountWords() string { //types:add
 	ll := av.Lines.NumLines() - 1
 	reg := textpos.NewRegion(0, 0, ll, av.Lines.NumLines())
 	words, lines := av.Lines.CountWordsLinesRegion(reg)
-	return fmt.Sprintf("File: %s  Words: %d   Lines: %d\n", fsx.DirAndFile(av.Lines.Filename()), words, lines)
+	res := fmt.Sprintf("File: %s  Words: %d   Lines: %d\n", fsx.DirAndFile(av.Lines.Filename()), words, lines)
+	core.MessageDialog(cv, res, "Count Words")
+	return res
 }
 
 // CountWordsRegion counts number of words (and lines) in selected region in file
@@ -340,7 +342,9 @@ func (cv *Code) CountWordsRegion() string { //types:add
 	}
 	sel := av.Selection()
 	words, lines := av.Lines.CountWordsLinesRegion(sel.Region)
-	return fmt.Sprintf("File: %s  Words: %d   Lines: %d\n", fsx.DirAndFile(av.Lines.Filename()), words, lines)
+	res := fmt.Sprintf("File: %s  Words: %d   Lines: %d\n", fsx.DirAndFile(av.Lines.Filename()), words, lines)
+	core.MessageDialog(cv, res, "Count Words Region")
+	return res
 }
 
 ////////   Links
