@@ -202,7 +202,7 @@ var StandardCommands = Commands{
 		Wait: CmdNoWait, Focus: CmdNoFocus, Confirm: CmdNoConfirm},
 
 	{Cat: "Git", Name: "Switch",
-		Desc: "git switch to new branch or existing commit: -c or -C (force) <branch> to create new; --detatch <commit> to switch to older (non-HEAD) commit; --orphan to abandon history",
+		Desc: "git switch to new branch or existing commit: -c or -C (force) <branch> to create new; --detach <commit> to switch to older (non-HEAD) commit; --orphan to abandon history",
 		Lang: fileinfo.Any,
 		Cmds: []CmdAndArgs{{Cmd: "git",
 			Args:    []string{"switch", "{PromptString1}"},
